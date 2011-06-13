@@ -162,13 +162,19 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 				if (i == 1) {
 					csvData.setLastUpdate(new Date(line.replace(" UPDATE", "")));
 				} else if (i == 3) {
-					// String[] lineData = line.split(",");
-					// csvData.setSupplyPowerOnPeek(Integer.valueOf(lineData[0]));
-					// csvData.setHour(lineData[1]);
-					// csvData.setSupplyPowerInfoUpdateDate(new Date(lineData[2]
-					// + " " + lineData[3]));
+					String[] lineData = line.split(",");
+					csvData.setSupplyPowerOnPeek(Integer.valueOf(lineData[0]));
+					csvData.setHour(lineData[1]);
+					SimpleDateFormat format = new SimpleDateFormat("MM/dd H:m");
+					csvData.setSupplyPowerInfoUpdateDate(format
+							.parse(lineData[2] + " " + lineData[3]));
 				} else if (i == 6) {
-
+					String[] lineData = line.split(",");
+					csvData.setExpectedMaxPower(Integer.valueOf(lineData[0]));
+					csvData.setExpectedMaxPowerTimeLine(lineData[1]);
+					SimpleDateFormat format = new SimpleDateFormat("MM/dd H:m");
+					csvData.setExpectedMaxPowerInfoUpdateDate(format
+							.parse(lineData[2] + " " + lineData[3]));
 				} else if (i >= 9) {
 					String[] lineData = line.split(",");
 					ResultPower resultPower = new ResultPower();
