@@ -1,4 +1,4 @@
-package jp.example.sample.graph;
+package jp.example.learnin.misc.android;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import jp.example.learnin.misc.android.R;
 
 import android.os.AsyncTask;
 import android.util.Log;

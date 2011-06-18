@@ -1,7 +1,8 @@
-package jp.example.sample.graph;
+package jp.example.learnin.misc.android;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import jp.example.learnin.misc.android.R;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -54,6 +55,11 @@ public class SummaryActivity extends Activity {
 		return mProgressBar;
 	}
 
+	/**
+	 * 線グラフを描画します。<br>
+	 *
+	 * @param csvData
+	 */
 	public void drawLineChart(CsvData csvData) {
 
 		mRenderer.setAxisTitleTextSize(16);

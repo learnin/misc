@@ -1,4 +1,4 @@
-package jp.example.sample.graph;
+package jp.example.learnin.misc.android;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import jp.example.learnin.misc.android.R;
 
-//参考 http://pastebin.com/q1Vcbe9C
-// TODO ボタン等のカスタマイズ
-// TODO UX重要。例えばボタンを押したらちゃんとへこませて離したら戻す。
-// TODO 設定画面でデータ取得間隔を設定し、その間隔で自動的にデータ取得し画面更新する。
-// TODO 複数画面にして、最初の画面ではヘッダのサマリ情報を表示し、グラフは別アクティビティにする。
-// TODO 複数画面等にして、過去分にも対応する。過去の電力ソースは http://tepco-usage-api.appspot.com/
-// TODO WebViewでJavaScriptでも実装してみる。JavaScriptのグラフライブラリを使って。
-// TODO 縦横回転時の表示切り替え
+
+/**
+ * 東京電力の電力使用状況グラフ表示サンプル<br>
+ */
 public class TokyoDenryokuGraphSampleActivity extends Activity {
 
 	private static final String TAG = "TokyoDenryokuGraphSampleActivity";
