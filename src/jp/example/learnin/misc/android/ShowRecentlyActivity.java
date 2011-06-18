@@ -2,7 +2,6 @@ package jp.example.learnin.misc.android;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import jp.example.learnin.misc.android.R;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -21,9 +20,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-public class SummaryActivity extends Activity {
+public class ShowRecentlyActivity extends Activity {
 
-	private static final String TAG = "SummaryActivity";
+	private static final String TAG = "ShowRecentlyActivity";
 
 	private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
 	private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
@@ -33,13 +32,13 @@ public class SummaryActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.show_summary);
+		setContentView(R.layout.show_recently);
 
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar_horizontal);
 		mProgressBar.setMax(10);
 		mProgressBar.setVisibility(View.VISIBLE);
 
-		GetSummaryTask task = new GetSummaryTask(this);
+		GetRecentlyTask task = new GetRecentlyTask(this);
 		task.execute();
 	}
 

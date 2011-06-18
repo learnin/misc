@@ -3,7 +3,6 @@ package jp.example.learnin.misc.android;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import jp.example.learnin.misc.android.R;
 
 public class CsvData {
 

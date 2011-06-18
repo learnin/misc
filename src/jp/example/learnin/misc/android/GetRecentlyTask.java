@@ -8,20 +8,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import jp.example.learnin.misc.android.R;
 
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
-public class GetSummaryTask extends AsyncTask<Void, Integer, CsvData> {
+public class GetRecentlyTask extends AsyncTask<Void, Integer, CsvData> {
 
-	private static final String TAG = "GetSummaryTask";
-	private SummaryActivity mActivity = null;
+	private static final String TAG = "GetRecentlyTask";
+	private ShowRecentlyActivity mActivity = null;
 
 	// private ProgressDialog mProgressDialog = null;
 
-	public GetSummaryTask(SummaryActivity activity) {
+	public GetRecentlyTask(ShowRecentlyActivity activity) {
 		mActivity = activity;
 	}
 
@@ -61,9 +60,9 @@ public class GetSummaryTask extends AsyncTask<Void, Integer, CsvData> {
 	 * @see android.os.AsyncTask#onPostExecute(Result)
 	 */
 	@Override
-	protected void onPostExecute(CsvData summaryData) {
-		if (summaryData != null) {
-			mActivity.drawLineChart(summaryData);
+	protected void onPostExecute(CsvData csvData) {
+		if (csvData != null) {
+			mActivity.drawLineChart(csvData);
 		}
 		try {
 			// mProgressDialog.dismiss();

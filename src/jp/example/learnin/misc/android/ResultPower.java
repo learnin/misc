@@ -1,7 +1,6 @@
 package jp.example.learnin.misc.android;
 
 import java.util.Date;
-import jp.example.learnin.misc.android.R;
 
 public class ResultPower implements Comparable<ResultPower> {
 
