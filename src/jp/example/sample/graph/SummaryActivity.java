@@ -15,8 +15,10 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 public class SummaryActivity extends Activity {
 
@@ -25,11 +27,16 @@ public class SummaryActivity extends Activity {
 	private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
 	private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
 	private GraphicalView mChartView = null;
+	private ProgressBar mProgressBar = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.show_summary);
+
+		mProgressBar = (ProgressBar) findViewById(R.id.progressbar_horizontal);
+		mProgressBar.setMax(10);
+		mProgressBar.setVisibility(View.VISIBLE);
 
 		GetSummaryTask task = new GetSummaryTask(this);
 		task.execute();
@@ -41,6 +48,10 @@ public class SummaryActivity extends Activity {
 		if (mChartView != null) {
 			mChartView.repaint();
 		}
+	}
+
+	public ProgressBar getProgressBar() {
+		return mProgressBar;
 	}
 
 	public void drawLineChart(CsvData csvData) {

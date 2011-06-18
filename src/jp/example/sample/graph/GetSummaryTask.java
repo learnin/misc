@@ -11,15 +11,31 @@ import java.util.Date;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
-// TODO プログレスバーの表示(初めてのAndroid P.172)
-public class GetSummaryTask extends AsyncTask<Void, Void, CsvData> {
+public class GetSummaryTask extends AsyncTask<Void, Integer, CsvData> {
 
 	private static final String TAG = "GetSummaryTask";
 	private SummaryActivity mActivity = null;
 
+	// private ProgressDialog mProgressDialog = null;
+
 	public GetSummaryTask(SummaryActivity activity) {
 		mActivity = activity;
+	}
+
+	@Override
+	protected void onPreExecute() {
+		// 進捗ダイアログ表示
+		// mProgressDialog = new ProgressDialog(mActivity);
+		// mProgressDialog.setTitle("電力データを取得しています...");
+		// mProgressDialog.setIndeterminate(false);
+		// mProgressDialog.setMax(10);
+		// mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		// try {
+		// mProgressDialog.show();
+		// } catch (Exception e) {
+		// }
 	}
 
 	/*
@@ -32,6 +48,12 @@ public class GetSummaryTask extends AsyncTask<Void, Void, CsvData> {
 		return downloadData();
 	}
 
+	@Override
+	protected void onProgressUpdate(Integer... values) {
+		// mProgressDialog.setProgress(values[0]);
+		mActivity.getProgressBar().setProgress(values[0]);
+	}
+
 	/*
 	 * サマリデータ取得後、グラフ描画を行います。<br>
 	 *
@@ -42,11 +64,17 @@ public class GetSummaryTask extends AsyncTask<Void, Void, CsvData> {
 		if (summaryData != null) {
 			mActivity.drawLineChart(summaryData);
 		}
+		try {
+			// mProgressDialog.dismiss();
+			mActivity.getProgressBar().setVisibility(View.GONE);
+		} catch (Exception e) {
+		}
 	}
 
 	private CsvData downloadData() {
 		BufferedReader reader = null;
 		HttpURLConnection conn = null;
+		publishProgress(0);
 		try {
 			URL url = new URL(
 					"http://www.tepco.co.jp/forecast/html/images/juyo-j.csv");
@@ -55,8 +83,10 @@ public class GetSummaryTask extends AsyncTask<Void, Void, CsvData> {
 			conn.setRequestProperty("Host", "www.tepco.co.jp");
 			conn.setDoInput(true);
 			conn.connect();
+			publishProgress(2);
 			reader = new BufferedReader(new InputStreamReader(
 					conn.getInputStream(), "Shift-JIS"));
+			publishProgress(6);
 			String line = null;
 			CsvData csvData = new CsvData();
 			int i = 1;
@@ -107,6 +137,7 @@ public class GetSummaryTask extends AsyncTask<Void, Void, CsvData> {
 				Log.d(TAG, line);
 			}
 			Collections.sort(csvData.getResultPowerList());
+			publishProgress(10);
 			return csvData;
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
