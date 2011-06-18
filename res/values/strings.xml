@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, TokyoDenryokuGraphSampleActivity!</string>
-    <string name="app_name">TokyoDenryokuGraphSample</string>
+    <string name="app_name">東京電力電力使用状況表示サンプル</string>
 </resources>

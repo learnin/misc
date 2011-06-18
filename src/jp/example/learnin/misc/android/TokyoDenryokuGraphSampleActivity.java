@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * 東京電力の電力使用状況グラフ表示Androidサンプル<br>
+ * 東京電力の電力使用状況表示Androidサンプル<br>
  */
 public class TokyoDenryokuGraphSampleActivity extends Activity {
 
