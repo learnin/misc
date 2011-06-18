@@ -56,8 +56,6 @@ public class SummaryActivity extends Activity {
 
 	public void drawLineChart(CsvData csvData) {
 
-		// FIXME
-		// 0の値がない場合に、Y軸が例えばmRenderer.setYLabels(10)で2400からなので2200ぐらいで一見、0に見えるような目盛りになるのを修正
 		mRenderer.setAxisTitleTextSize(16);
 		mRenderer.setChartTitleTextSize(20);
 		mRenderer.setLabelsTextSize(15);
@@ -78,6 +76,9 @@ public class SummaryActivity extends Activity {
 
 		// ズームボタン表示制御
 		mRenderer.setZoomEnabled(false, false);
+
+		// Y軸の最小値を0に設定
+		mRenderer.setYAxisMin(0);
 
 		// TimeSeries mCurrentSeries;
 		XYSeries mCurrentSeries;
