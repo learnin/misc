@@ -2,7 +2,7 @@ package jp.example.sample.graph;
 
 import java.util.Date;
 
-public class ResultPower implements Comparable {
+public class ResultPower implements Comparable<ResultPower> {
 
 	/* 日時 */
 	private Date dateTime;
@@ -47,7 +47,7 @@ public class ResultPower implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object another) {
-		return this.dateTime.compareTo(((ResultPower) another).getDateTime());
+	public int compareTo(ResultPower another) {
+		return this.dateTime.compareTo(another.getDateTime());
 	}
 }
