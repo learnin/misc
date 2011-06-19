@@ -50,10 +50,6 @@ public class ShowRecentlyActivity extends Activity {
 		}
 	}
 
-	public ProgressBar getProgressBar() {
-		return mProgressBar;
-	}
-
 	/**
 	 * 線グラフを描画します。<br>
 	 *
@@ -140,5 +136,12 @@ public class ShowRecentlyActivity extends Activity {
 		mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
 		layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
+
+		// プログレスバーを消去
+		mProgressBar.setVisibility(View.GONE);
+	}
+
+	public void setProgress(Integer... values) {
+		mProgressBar.setProgress(values[0]);
 	}
 }

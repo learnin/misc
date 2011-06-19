@@ -1,7 +1,6 @@
 package jp.example.learnin.misc.android;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 public class GetRecentlyTask extends AsyncTask<Void, Integer, CsvData> {
 
@@ -45,7 +44,10 @@ public class GetRecentlyTask extends AsyncTask<Void, Integer, CsvData> {
 	@Override
 	protected void onProgressUpdate(Integer... values) {
 		// mProgressDialog.setProgress(values[0]);
-		mActivity.getProgressBar().setProgress(values[0]);
+		try {
+			mActivity.setProgress(values);
+		} catch (Exception e) {
+		}
 	}
 
 	/*
@@ -56,12 +58,10 @@ public class GetRecentlyTask extends AsyncTask<Void, Integer, CsvData> {
 	@Override
 	protected void onPostExecute(CsvData csvData) {
 		if (csvData != null) {
-			mActivity.drawLineChart(csvData);
-		}
-		try {
-			// mProgressDialog.dismiss();
-			mActivity.getProgressBar().setVisibility(View.GONE);
-		} catch (Exception e) {
+			try {
+				mActivity.drawLineChart(csvData);
+			} catch (Exception e) {
+			}
 		}
 	}
 

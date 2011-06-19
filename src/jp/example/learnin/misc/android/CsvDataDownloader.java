@@ -15,6 +15,10 @@ public class CsvDataDownloader {
 
 	private static final String TAG = "CsvDataDownloader";
 
+	public static CsvData downloadData() {
+		return downloadData(null);
+	}
+
 	public static CsvData downloadData(CallbackProcess callback) {
 		BufferedReader reader = null;
 		HttpURLConnection conn = null;
