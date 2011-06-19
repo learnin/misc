@@ -36,16 +36,16 @@ public class ShowRecentlyActivity extends Activity {
 
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar_horizontal);
 		mProgressBar.setMax(10);
-		mProgressBar.setVisibility(View.VISIBLE);
-
-		GetRecentlyTask task = new GetRecentlyTask(this);
-		task.execute();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (mChartView != null) {
+		if (mChartView == null) {
+			mProgressBar.setVisibility(View.VISIBLE);
+			GetRecentlyTask task = new GetRecentlyTask(this);
+			task.execute();
+		} else {
 			mChartView.repaint();
 		}
 	}

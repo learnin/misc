@@ -2,6 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:baselineAligned="true">
+		<TextView android:text="予想最大電力(万kw)：" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+		<ProgressBar android:id="@+id/progressbar"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:indeterminate="false" style="?android:attr/progressBarStyle" />
+		<TextView android:id="@+id/expectedMaxPower"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	</LinearLayout>
 	<Button android:text="昨日、今日の電力使用状況グラフを見る" android:id="@+id/show_recently"
 		android:layout_width="fill_parent" android:layout_height="wrap_content" />
 </LinearLayout>
