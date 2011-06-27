@@ -34,6 +34,10 @@ public class ShowRecentlyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.show_recently);
 
+		setupViews();
+	}
+
+	private void setupViews() {
 		mProgressBar = (ProgressBar) findViewById(R.id.progressbar_horizontal);
 		mProgressBar.setMax(10);
 	}

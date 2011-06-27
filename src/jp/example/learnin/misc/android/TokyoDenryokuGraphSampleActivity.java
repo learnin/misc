@@ -30,6 +30,10 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		setupViews();
+	}
+
+	private void setupViews() {
 		mExpectedMaxPower = (TextView) findViewById(R.id.expectedMaxPower);
 		mProgressBarForExpectedMaxPower = (ProgressBar) findViewById(R.id.progressBarForExpectedMaxPower);
 		mExpectedMaxPowerTimeLine = (TextView) findViewById(R.id.expectedMaxPowerTimeLine);
