@@ -2,6 +2,7 @@ package jp.example.learnin.misc.android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,13 +17,23 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 
 	private static final String TAG = "TokyoDenryokuGraphSampleActivity";
 
+	private static final String GET_SUMMARY_TASK_STATUS_NOT_FINISHED = "jp.example.learnin.misc.android.GET_SUMMARY_TASK_STATUS_NOT_FINISHED";
+	private static final String GET_SUMMARY_TASK_STATUS_FINISHED = "jp.example.learnin.misc.android.GET_SUMMARY_TASK_STATUS_FINISHED";
+
+	private static final String EXPECTED_MAX_POWER = "jp.example.learnin.misc.android.EXPECTED_MAX_POWER";
+	private static final String EXPECTED_MAX_POWER_TIME_LINE = "jp.example.learnin.misc.android.EXPECTED_MAX_POWER_TIME_LINE";
+
 	private TextView mExpectedMaxPower;
 	private ProgressBar mProgressBarForExpectedMaxPower;
 	private TextView mExpectedMaxPowerTimeLine;
 	private ProgressBar mProgressBarForExpectedMaxPowerTimeLine;
 	private Button mShowRecently;
 
+	private GetSummaryTask mGetSummaryTask;
 	private boolean mGotSummaryData = false;
+
+	private Bundle mSavedState;
+	private boolean mRestoredState;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -50,9 +61,75 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (!mGotSummaryData) {
-			GetSummaryTask task = new GetSummaryTask(this);
-			task.execute();
+		if (mSavedState != null) {
+			restoreInstanceState(mSavedState);
+		}
+		if (!mRestoredState) {
+			mGetSummaryTask = new GetSummaryTask(this);
+			mGetSummaryTask.execute();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		cancelGetSummaryTask();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		saveInstanceState(outState);
+		mSavedState = outState;
+	}
+
+	private void saveInstanceState(Bundle outState) {
+		if (mGetSummaryTask != null
+				&& mGetSummaryTask.getStatus() != AsyncTask.Status.FINISHED) {
+			mGetSummaryTask.cancel(true);
+			outState.putBoolean(GET_SUMMARY_TASK_STATUS_NOT_FINISHED, true);
+			mGetSummaryTask = null;
+		} else if (mGotSummaryData) {
+			outState.putCharSequence(EXPECTED_MAX_POWER,
+					mExpectedMaxPower.getText());
+			outState.putCharSequence(EXPECTED_MAX_POWER_TIME_LINE,
+					mExpectedMaxPowerTimeLine.getText());
+			outState.putBoolean(GET_SUMMARY_TASK_STATUS_FINISHED, true);
+			mGetSummaryTask = null;
+		}
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		restoreInstanceState(savedInstanceState);
+		mSavedState = null;
+	}
+
+	private void restoreInstanceState(Bundle savedInstanceState) {
+		if (savedInstanceState.getBoolean(GET_SUMMARY_TASK_STATUS_NOT_FINISHED)) {
+			mGetSummaryTask = new GetSummaryTask(this);
+			mGetSummaryTask.execute();
+			mRestoredState = true;
+		} else if (savedInstanceState
+				.getBoolean(GET_SUMMARY_TASK_STATUS_FINISHED)) {
+			mExpectedMaxPower.setText(String.valueOf(savedInstanceState
+					.getCharSequence(EXPECTED_MAX_POWER)));
+			mProgressBarForExpectedMaxPower.setVisibility(View.GONE);
+
+			mExpectedMaxPowerTimeLine.setText(savedInstanceState
+					.getCharSequence(EXPECTED_MAX_POWER_TIME_LINE));
+			mProgressBarForExpectedMaxPowerTimeLine.setVisibility(View.GONE);
+			mRestoredState = true;
+			mGotSummaryData = true;
+		}
+	}
+
+	private void cancelGetSummaryTask() {
+		if (mGetSummaryTask != null
+				&& mGetSummaryTask.getStatus() == AsyncTask.Status.RUNNING) {
+			mGetSummaryTask.cancel(true);
+			mGetSummaryTask = null;
 		}
 	}
 
