@@ -65,7 +65,7 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 			restoreInstanceState(mSavedState);
 		}
 		if (!mRestoredState) {
-			mGetSummaryTask = new GetSummaryTask(this);
+			mGetSummaryTask = new GetSummaryTask();
 			mGetSummaryTask.execute();
 		}
 	}
@@ -108,7 +108,7 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 
 	private void restoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState.getBoolean(GET_SUMMARY_TASK_STATUS_NOT_FINISHED)) {
-			mGetSummaryTask = new GetSummaryTask(this);
+			mGetSummaryTask = new GetSummaryTask();
 			mGetSummaryTask.execute();
 			mRestoredState = true;
 		} else if (savedInstanceState
@@ -148,6 +148,35 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 		mProgressBarForExpectedMaxPowerTimeLine.setVisibility(View.GONE);
 
 		mGotSummaryData = true;
+	}
+
+	private class GetSummaryTask extends AsyncTask<Void, Integer, CsvData> {
+
+		/*
+		 * バックグラウンドで電力データを取得します。<br>
+		 */
+		@Override
+		protected CsvData doInBackground(Void... params) {
+			return CsvDataDownloader.downloadData();
+		}
+
+		/*
+		 * 電力データ取得後、表示を行います。<br>
+		 */
+		@Override
+		protected void onPostExecute(CsvData csvData) {
+			if (csvData != null) {
+				try {
+					showSummaryData(csvData);
+				} catch (Exception e) {
+				}
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			mGetSummaryTask = null;
+		}
 	}
 
 }
