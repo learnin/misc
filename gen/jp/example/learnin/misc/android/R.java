@@ -14,13 +14,14 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int chart_area=0x7f050005;
+        public static final int chart_area=0x7f050006;
         public static final int expectedMaxPower=0x7f050001;
         public static final int expectedMaxPowerTimeLine=0x7f050003;
         public static final int progressBarForExpectedMaxPower=0x7f050000;
         public static final int progressBarForeEpectedMaxPowerTimeLine=0x7f050002;
-        public static final int progressbar_horizontal=0x7f050006;
-        public static final int show_recently=0x7f050004;
+        public static final int progressbar_horizontal=0x7f050007;
+        public static final int show_recently=0x7f050005;
+        public static final int update=0x7f050004;
     }
     public static final class layout {
         public static final int main=0x7f030000;

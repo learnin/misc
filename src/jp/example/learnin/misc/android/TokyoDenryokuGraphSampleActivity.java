@@ -27,6 +27,7 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 	private ProgressBar mProgressBarForExpectedMaxPower;
 	private TextView mExpectedMaxPowerTimeLine;
 	private ProgressBar mProgressBarForExpectedMaxPowerTimeLine;
+	private Button mUpdate;
 	private Button mShowRecently;
 
 	private GetSummaryTask mGetSummaryTask;
@@ -49,8 +50,19 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 		mProgressBarForExpectedMaxPower = (ProgressBar) findViewById(R.id.progressBarForExpectedMaxPower);
 		mExpectedMaxPowerTimeLine = (TextView) findViewById(R.id.expectedMaxPowerTimeLine);
 		mProgressBarForExpectedMaxPowerTimeLine = (ProgressBar) findViewById(R.id.progressBarForeEpectedMaxPowerTimeLine);
+		mUpdate = (Button) findViewById(R.id.update);
+		mUpdate.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				mExpectedMaxPower.setText("");
+				mProgressBarForExpectedMaxPower.setVisibility(View.VISIBLE);
+				mExpectedMaxPowerTimeLine.setText("");
+				mProgressBarForExpectedMaxPowerTimeLine
+						.setVisibility(View.VISIBLE);
+				mGetSummaryTask = new GetSummaryTask();
+				mGetSummaryTask.execute();
+			}
+		});
 		mShowRecently = (Button) findViewById(R.id.show_recently);
-
 		mShowRecently.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				showRecently();
