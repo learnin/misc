@@ -1,5 +1,7 @@
 package jp.example.learnin.misc.android;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -58,7 +60,8 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 				mExpectedMaxPowerTimeLine.setText("");
 				mProgressBarForExpectedMaxPowerTimeLine
 						.setVisibility(View.VISIBLE);
-				mGetSummaryTask = new GetSummaryTask();
+				mGetSummaryTask = new GetSummaryTask(
+						TokyoDenryokuGraphSampleActivity.this);
 				mGetSummaryTask.execute();
 			}
 		});
@@ -77,7 +80,7 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 			restoreInstanceState(mSavedState);
 		}
 		if (!mRestoredState) {
-			mGetSummaryTask = new GetSummaryTask();
+			mGetSummaryTask = new GetSummaryTask(this);
 			mGetSummaryTask.execute();
 		}
 	}
@@ -120,7 +123,7 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 
 	private void restoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState.getBoolean(GET_SUMMARY_TASK_STATUS_NOT_FINISHED)) {
-			mGetSummaryTask = new GetSummaryTask();
+			mGetSummaryTask = new GetSummaryTask(this);
 			mGetSummaryTask.execute();
 			mRestoredState = true;
 		} else if (savedInstanceState
@@ -162,7 +165,19 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 		mGotSummaryData = true;
 	}
 
-	private class GetSummaryTask extends AsyncTask<Void, Integer, CsvData> {
+	// Activityのライフサイクルに合わせてTaskのライフサイクルを制御する実装が漏れた場合に、
+	// インナークラスによるエンクロージングクラスのインスタンスへの暗黙的な参照が残ってしまい、ActivityがGCされなくなることを防止するために
+	// staticなインナークラスとし、Activityへの参照を弱参照にする。
+	private static class GetSummaryTask extends
+			AsyncTask<Void, Integer, CsvData> {
+
+		private WeakReference<TokyoDenryokuGraphSampleActivity> mTokyoDenryokuGraphSampleActivity;
+
+		private GetSummaryTask(
+				TokyoDenryokuGraphSampleActivity tokyoDenryokuGraphSampleActivity) {
+			mTokyoDenryokuGraphSampleActivity = new WeakReference<TokyoDenryokuGraphSampleActivity>(
+					tokyoDenryokuGraphSampleActivity);
+		}
 
 		/*
 		 * バックグラウンドで電力データを取得します。<br>
@@ -178,16 +193,21 @@ public class TokyoDenryokuGraphSampleActivity extends Activity {
 		@Override
 		protected void onPostExecute(CsvData csvData) {
 			if (csvData != null) {
-				try {
-					showSummaryData(csvData);
-				} catch (Exception e) {
+				final TokyoDenryokuGraphSampleActivity tokyoDenryokuGraphSampleActivity = mTokyoDenryokuGraphSampleActivity
+						.get();
+				if (tokyoDenryokuGraphSampleActivity != null) {
+					tokyoDenryokuGraphSampleActivity.showSummaryData(csvData);
 				}
 			}
 		}
 
 		@Override
 		protected void onCancelled() {
-			mGetSummaryTask = null;
+			final TokyoDenryokuGraphSampleActivity tokyoDenryokuGraphSampleActivity = mTokyoDenryokuGraphSampleActivity
+					.get();
+			if (tokyoDenryokuGraphSampleActivity != null) {
+				tokyoDenryokuGraphSampleActivity.mGetSummaryTask = null;
+			}
 		}
 	}
 
